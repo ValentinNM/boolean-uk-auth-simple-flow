@@ -6,13 +6,23 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DB_URL")
 }
 
 model User {
-  id        Int     @unique @default(autoincrement())
-  email     String  @unique
-  password  String
+  id       Int    @unique @default(autoincrement())
+  email    String @unique
+  password String
+  posts    Post[]
+}
+
+// RUN: create schema shadow  =>if: failed to apply cleanly to the shadow database [will create shadow instance in the shadow db]
+model Post {
+  id          Int    @unique @default(autoincrement())
+  title       String @db.VarChar(150)
+  description String
+  user        User   @relation(fields: [userId], references: [id])
+  userId      Int
 }

@@ -52,7 +52,7 @@ async function signin(req, res){
 
         console.error({error})
 
-        res.staus(500).json({ error })
+        res.status(500).json({ error })
     }
 
 }
