@@ -1,5 +1,6 @@
 const prisma = require("../../utils/dbClient")
 const bcrypt = require('bcrypt');
+const createToken = require('../../utils/authentification') 
 
 const saltRounds = 9;
 
@@ -56,7 +57,18 @@ async function signin(req, res){
         const match = await bcrypt.compare( password, user.password )
 
         if(match){ 
-            res.status(201).json({user})
+            // res.status(201).json({user})
+            const userToToken = { 
+                ...user
+            }
+            
+            delete userToToken.password
+            
+            const token = createToken(userToToken)
+
+            console.log("token: ", token)
+            
+            res.status(201).json({token})
         } else { 
             res.status(401).json({ error : "Authentification failed."})
         }

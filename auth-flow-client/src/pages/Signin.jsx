@@ -26,15 +26,20 @@ export default function Signin({setAuthUser}){
         .catch(error => console.log({error}))
         .then(data => { 
             
-            const user = data.user
-            console.log("user", user)
+            // const user = data.user
+            const token = data.token
+            // console.log("user", user)
+            console.log("fetch token: ", data.token);
 
-            if(user){ 
-                setAuthUser(user)
+
+            if(token){ 
+                // setAuthUser(user)
+                setAuthUser(token)
                 navigate("/secure")
             }
             
-            localStorage.setItem('user', JSON.stringify(user))
+            // localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('token', token)
         })
     }
 

@@ -28,7 +28,7 @@ export default function SecurePage() {
   }, []);
 
   return (
-    <section>w
+    <section>
       <h2>Secure enviroment</h2>
       <ul>
         {posts.map((post, index) => {
