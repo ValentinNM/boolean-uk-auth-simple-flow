@@ -1,7 +1,7 @@
 import { useState } from "react"
 import {useNavigate} from "react-router-dom"
 
-export default function Signin(){
+export default function Signin({setAuthUser}){
 
     const navigate = useNavigate();
 
@@ -28,6 +28,11 @@ export default function Signin(){
             
             const user = data.user
             console.log("user", user)
+
+            if(user){ 
+                setAuthUser(user)
+                navigate("/secure")
+            }
             
             localStorage.setItem('user', JSON.stringify(user))
         })

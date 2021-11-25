@@ -28,7 +28,7 @@ export default function Signup({setAuthUser}) {
             
             const user = newUserData.user;
             
-            console.log("user: ", user)
+            // console.log("user: ", user)
             
             if(user) {  // if the response is true => add to local state
                 setAuthUser(user)
