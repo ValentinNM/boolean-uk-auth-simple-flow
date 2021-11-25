@@ -12,6 +12,8 @@ export default function Signup({setAuthUser}) {
     const handleSubmit = (event) => { 
         event.preventDefault(); 
 
+        console.log({newUser})
+
         const fetchOptions={
             method: "POST",
             headers: {
@@ -28,13 +30,13 @@ export default function Signup({setAuthUser}) {
             
             const user = newUserData.user;
             
-            // console.log("user: ", user)
+            console.log("user: ", user)
             
             if(user) {  // if the response is true => add to local state
                 setAuthUser(user)
 
                 localStorage.setItem("user", JSON.stringify(user)) // => is being added to the browsr of choice Local Storage
-                                                                         //for the user not to remeber the credentials all the time
+                                                                  //for the user not to remeber the credentials all the time
             }
         })
     }

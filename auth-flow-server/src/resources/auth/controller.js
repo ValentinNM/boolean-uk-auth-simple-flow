@@ -1,13 +1,25 @@
 const prisma = require("../../utils/dbClient")
+const bcrypt = require('bcrypt');
+
+const saltRounds = 9;
 
 const signup = async (req, res) => {
 
     const userCredentials = req.body;
+    
+    const reqPassword = userCredentials.password
+
+    const hashedPass = await bcrypt.hash(reqPassword, saltRounds)
+
+    console.log({hashedPass})
 
     try{
 
         const user = await prisma.user.create({
-            data : {...userCredentials}
+            data : {
+                email : userCredentials.email, 
+                password: hashedPass
+            }
         })
 
         res.status(200).json({ user })
@@ -18,7 +30,6 @@ const signup = async (req, res) => {
 
         res.status(401).json({error: error.message})
     }
-
 }
 
 async function signin(req, res){ 
@@ -42,7 +53,9 @@ async function signin(req, res){
             res.status(401).json({ error : "Authentification failed."})
         }
 
-        if(user.password === password){ 
+        const match = await bcrypt.compare( password, user.password )
+
+        if(match){ 
             res.status(201).json({user})
         } else { 
             res.status(401).json({ error : "Authentification failed."})
@@ -58,12 +71,3 @@ async function signin(req, res){
 }
 
 module.exports = {signup, signin}
-
-
-/*
-theUser 
-{user: {…}}
-user: {id: 19, email: 'user@user.user', password: 'user'}
-[[Prototype]]: Object
-
-*/ 
