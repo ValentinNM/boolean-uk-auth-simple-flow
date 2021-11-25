@@ -8,6 +8,7 @@ const { Router } = require("express")
 const app = express()
 
 const authRouter = require("./resources/auth/router")
+const postsRouter = require("./resources/posts/router")
 
 /* SETUP MIDDLEWARE */
 
@@ -21,6 +22,7 @@ app.use(morgan("dev"))
 /* SETUP ROUTES */
 
 app.use("/", authRouter);
+app.use("/posts", postsRouter)
 
 app.get("*", (req, res) => {
   res.json({ ok: true })
