@@ -3,29 +3,30 @@ import { useEffect, useState } from "react";
 export default function SecurePage() {
   const [posts, setPosts] = useState([]);
 
-  const userAsJSON = localStorage.getItem("user");
+  // const userAsJSON = localStorage.getItem("user");
 
-  const user = JSON.parse(userAsJSON);
-
-  console.log("auth user id: ", user.id);
-  console.log("user posts: ", posts);
+  // const user = JSON.parse(userAsJSON);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("token:", token);
+
     const fetchOptions = {
       method: "GET",
       headers: {
-        authorisation: user.id,
+        authorisation: token,
       },
     };
 
     fetch(`http://localhost:3030/posts`, fetchOptions)
       .then((res) => res.json())
       .then((data) => {
-        setPosts(data);
-        console.log("fetch data: ", data);
+        setPosts(data.userPosts);
       })
-      .catch(error => console.log({error: error.message}))  // ?? 
+      .catch((error) => console.log({ error: error.message })); // ??
   }, []);
+
+  console.log("user posts: ", posts);
 
   return (
     <section>

@@ -6,4 +6,8 @@ const createToken = user => {
     return jwt.sign({...user}, jwtSecret, {expiresIn: '7days'})
 }
 
-module.exports = createToken
+const verifyToken = token => { 
+    return jwt.verify(token, jwtSecret, (err, payload))
+}
+
+module.exports = createToken, verifyToken
